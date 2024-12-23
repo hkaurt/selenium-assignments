@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
 	
-	WebDriver driver; // declare it as class level ( default access) to use it throughout the package
+	public WebDriver driver; // declare it as class level ( default access) to use it throughout the package
 
 	@BeforeMethod
 	public void init() {
@@ -31,9 +31,9 @@ public class BaseTest {
 		}
 		
 		//window handles
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));  //should be right after driver initiatiation and will be auto applied on each findElement until it finds the element or timeout- do not use for 5 sec time , will save time if element is found before 5 sec
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));  //should be right after driver initiatiation and will be auto applied on each findElement until it finds the element or timeout- do not use for 5 sec time , will save time if element is found before 5 sec
 		driver.manage().window().maximize(); // maximise browser window
-
+		//driver.manage().window().minimize();
 	}
 
 	@AfterMethod

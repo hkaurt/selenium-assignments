@@ -21,7 +21,7 @@ public class DropDownTest extends BaseTest {
 		WebElement optionEle = driver.findElement(By.xpath("//*[@id='dropdown']"));
 		Select select = new Select(optionEle);
 		select.selectByIndex(1); // accepts para int
-		Thread.sleep(3000);
+		Thread.sleep(3000);  //hard stop - not recommended in real coding
 		select.selectByContainsVisibleText("ion 2"); // accepts para String
 		Thread.sleep(3000);
 		select.selectByValue("1"); // accepts String as para

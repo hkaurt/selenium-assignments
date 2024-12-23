@@ -23,8 +23,8 @@ public class selectTextWithKeys extends BaseTest {
 
 		Actions action = new Actions(driver);
 
-		// move cursor to username textbox and click on control+A+C on keyboard
-		action.moveToElement(usernameEle).keyDown(Keys.CONTROL).sendKeys("A"+"C").keyUp(Keys.CONTROL);
+		// move cursor to username textbox and click on control+A+X on keyboard
+		action.moveToElement(usernameEle).keyDown(Keys.CONTROL).sendKeys("A"+"X").keyUp(Keys.CONTROL);
 		
 	}
 }

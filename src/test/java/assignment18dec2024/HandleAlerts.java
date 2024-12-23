@@ -18,7 +18,7 @@ public class HandleAlerts extends BaseTest { // inherited from other package cla
 		driver.findElement(By.linkText("JavaScript Alerts")).click();
 
 		// click on "Click for JS Alert" button
-		driver.findElement(By.xpath("//*[@id=\"content\"]/div/ul/li[1]/button")).click();
+		driver.findElement(By.xpath("//*[@id='content']/div/ul/li[1]/button")).click();
 
 		Alert jsAlert = driver.switchTo().alert(); // Alert is an interface
 		jsAlert.accept();
@@ -26,16 +26,16 @@ public class HandleAlerts extends BaseTest { // inherited from other package cla
 		Assert.assertEquals(jsAlertMsg, "You successfully clicked an alert");
 
 		// click on "Click for JS Confirm" button
-		driver.findElement(By.xpath("//*[@id=\"content\"]/div/ul/li[1]/button")).click();
+		driver.findElement(By.xpath("//*[@id='content']/div/ul/li[2]/button")).click();
 		jsAlert.dismiss();
 		String jsCancelMsg = driver.findElement(By.xpath("//*[@id='result']")).getText();
-		Assert.assertEquals(jsCancelMsg, "You successfully clicked an alert");
+		Assert.assertEquals(jsCancelMsg, "You clicked: Cancel");
 
-		// click on "Click for JS prompt" button
+		// click on "Click for JS prompt" button   
 		driver.findElement(By.xpath("//*[@id='content']/div/ul/li[3]/button")).click();
 		jsAlert.sendKeys("HEY!!");   // locate text box in alert and enter keys
 		jsAlert.accept();   // click on ok in alert
-		String jsPromptMsg = driver.findElement(By.xpath("//*[@id=\"result\"]")).getText();
+		String jsPromptMsg = driver.findElement(By.xpath("//*[@id='result']")).getText();
 		Assert.assertEquals(jsPromptMsg, "You entered: HEY!!");
 	}
 
