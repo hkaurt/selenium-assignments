@@ -81,7 +81,7 @@ public class ApplyLeaveOrangeHRM extends BaseTest {
 		// using Actions class to clear the auto date in the 'To Date' text field and
 		// entering date
 		Actions action = new Actions(driver);
-		action.click(toDateEle).keyDown(Keys.CONTROL).sendKeys("A" + "X").keyUp(Keys.CONTROL).sendKeys("2024-28-12").keyDown(Keys.TAB).perform();
+		action.click(toDateEle).keyDown(Keys.CONTROL).sendKeys("A" + "X").keyUp(Keys.CONTROL).sendKeys("2024-29-12").keyDown(Keys.TAB).perform();
 
 		// 4.add comment: vacation applied by H
 		driver.findElement(By.xpath("//form/div[4]/div/div/div/div[2]/textarea")).sendKeys("vacation applied by H");
