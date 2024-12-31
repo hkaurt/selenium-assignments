@@ -108,15 +108,17 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 
 //	*16. Verify that the user is not displayed under Records Found table
 
-		for (i = 1; i < rows.size(); i++) {
-
-			String eleXpath = "//div[@role='table']/div[2]/div[" + i + "]/div/div[2]/div";
-			String actualUserName = driver.findElement(By.xpath(eleXpath)).getText();
-
-			if (actualUserName.equals("R_Ranga")) {
+		List<WebElement> usernames=driver.findElements(By.xpath("//div[@role='table']/div[2]/div/div/div[2]/div"));
+		
+		for(WebElement username: usernames) {
+			
+			if(username.getText().equals("R_Ranga"))
+			{
 				Assert.assertTrue(false);
 				break;
 			}
+			
 		}
+		
 	}
 }
