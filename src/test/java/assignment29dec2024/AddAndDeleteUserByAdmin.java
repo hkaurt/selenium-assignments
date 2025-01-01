@@ -118,14 +118,14 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 
 		List<WebElement> usernames = driver.findElements(By.xpath("//div[@role='table']/div[2]/div/div/div[2]/div"));
 
-		Boolean isPresent = true;
+		Boolean isNotPresent = true;
 		for (WebElement username : usernames) {
 			if (username.getText().equals("R_Ranga")) {
-				isPresent = false;
+				isNotPresent = false;
 				break;
 			}
 		}
-		Assert.assertTrue(isPresent);
+		Assert.assertTrue(isNotPresent);
 	}
 
 }
