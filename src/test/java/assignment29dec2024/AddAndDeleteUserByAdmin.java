@@ -33,7 +33,8 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 		driver.findElement(By.xpath("//div[@role='option']/span[text()='Admin']")).click();
 
 //		6. Enter two characters "Re" in Employee Name text field, wait and select a suggested name - Ranga  Akunuri 
-		driver.findElement(By.xpath("//label[text()='Employee Name']/parent::div/following-sibling::div//input[@placeholder='Type for hints...']"))
+		driver.findElement(By.xpath(
+				"//label[text()='Employee Name']/parent::div/following-sibling::div//input[@placeholder='Type for hints...']"))
 				.sendKeys("ra");
 		Thread.sleep(3000);
 		driver.findElement(By.xpath("//span[text()='Ranga  Akunuri']")).click();
@@ -118,14 +119,14 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 
 		List<WebElement> usernames = driver.findElements(By.xpath("//div[@role='table']/div[2]/div/div/div[2]/div"));
 
-		Boolean isNotPresent = true;
+		Boolean isPresent = false;
 		for (WebElement username : usernames) {
 			if (username.getText().equals("R_Ranga")) {
-				isNotPresent = false;
+				isPresent = true;
 				break;
 			}
 		}
-		Assert.assertTrue(isNotPresent);
+		Assert.assertFalse(isPresent);
 	}
 
 }
