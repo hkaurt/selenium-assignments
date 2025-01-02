@@ -6,18 +6,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import assignment23dec2024.HrmBaseTest;
 
-public class AddAndDeleteUserByAdmin extends BaseTest {
+public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 
 	// Verify that an admin user can be successfully added and deleted from the
 	// application
 	@Test
-	public void verifyAddAndDeleteUserByAdminTest() throws InterruptedException {
+	public void verifyAddAndDeleteUserByAdminTest() {
 
-//		1. Launch browser and go to OrangeHr login page 
+//      1. open url and 2. login to OrangeHrm portal
 		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-
-//		2. Login with correct credentials
 		driver.findElement(By.name("username")).sendKeys("Admin");
 		driver.findElement(By.name("password")).sendKeys("admin123");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
@@ -32,11 +31,11 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 		driver.findElement(By.xpath("//label[text()='User Role']/parent::div/following-sibling::div")).click();
 		driver.findElement(By.xpath("//div[@role='option']/span[text()='Admin']")).click();
 
-//		6. Enter two characters "Re" in Employee Name text field, wait and select a suggested name - Ranga  Akunuri 
+//		6. Enter two characters "Ra" in Employee Name text field, wait and select a suggested name - Ranga  Akunuri 
 		driver.findElement(By.xpath(
 				"//label[text()='Employee Name']/parent::div/following-sibling::div//input[@placeholder='Type for hints...']"))
 				.sendKeys("ra");
-		Thread.sleep(3000);
+
 		driver.findElement(By.xpath("//span[text()='Ranga  Akunuri']")).click();
 
 //		7. Select Status as Enabled
@@ -59,67 +58,68 @@ public class AddAndDeleteUserByAdmin extends BaseTest {
 		driver.findElement(By.xpath("//button[text()=' Save ']")).click();
 
 //		*11. Verify that user creation success message is displayed - Successfully Saved
-		String actualConfirmMsg = driver.findElement(By.xpath("//p[text()='Successfully Saved']")).getText();
+		String actScsMsg = driver.findElement(By.xpath("//p[text()='Successfully Saved']")).getText();
+		Assert.assertEquals(actScsMsg, "Successfully Saved");
 
-		Assert.assertEquals(actualConfirmMsg, "Successfully Saved");
-
-//			*12. Verify that the newly added user is added to the list "Records Found"
+//		*12. Verify that the newly added user is added to the list "Records Found"
 
 		// find "Records Found" table
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@role='table']//div[@class='oxd-table-card']"));
 
 		// loop through each row starting from 1 until expected ele is found- it will
 		// give us i - row number to verify rest of ele
+		String eUsrNm="R_Ranga";
 		int i;
-		for (i = 1; i < rows.size(); i++) {
+		Boolean isPresent = false;
+		for (i = 1; i <= rows.size(); i++) {
 			String eleXpath = "//div[@role='table']/div[2]/div[" + i + "]/div/div[2]/div";
+			String actUsrNm = driver.findElement(By.xpath(eleXpath)).getText();
 
-			String actualUserName = driver.findElement(By.xpath(eleXpath)).getText();
-
-			if (actualUserName.equals("R_Ranga")) {
-				Assert.assertTrue(true); // verify new user - "R_Ranga" is added
+			if (actUsrNm.equals(eUsrNm)) {
+				isPresent = true;
 				break;
 			}
 		}
 
+		Assert.assertTrue(isPresent); // verify record is present and correct username
+
 //		*13. Verify that all the details are correct for the user in its row 
 
-		// verify actualrole="Admin" in same row
-		String actualRole = driver
-				.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//div[text()='" + "Admin" + "']"))
+		// verify actrole="Admin" in same row
+		String actRole = driver
+				.findElement(By.xpath("//div[text()='" + eUsrNm + "']/parent:: div/following-sibling::div//div[text()='" + "Admin" + "']"))
 				.getText();
 
-		Assert.assertEquals(actualRole, "Admin");
+		Assert.assertEquals(actRole, "Admin");
 
-		// verify actualEmpName="Ranga Akunuri" in same row
-		String actualEmpName = driver
+		// verify actRole="Ranga Akunuri" in same row
+		String actEmpNm = driver
 				.findElement(
-						By.xpath("//div[@role='table']/div[2]/div[" + i + "]//div[text()='" + "Ranga Akunuri" + "']"))
+						By.xpath("//div[text()='" + eUsrNm + "']/parent:: div/following-sibling::div//div[text()='" + "Ranga Akunuri" + "']"))
 				.getText();
 
-		Assert.assertEquals(actualEmpName, "Ranga Akunuri");
+		Assert.assertEquals(actEmpNm, "Ranga Akunuri");
 
-		// verify actualStatus="Enabled" in same row
-		String actualStatus = driver
+		// verify actStatus="Enabled" in same row
+		String actStatus = driver
 				.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//div[text()='" + "Enabled" + "']"))
 				.getText();
-		Assert.assertEquals(actualStatus, "Enabled");
+		Assert.assertEquals(actStatus, "Enabled");
 
 //		14. Click on Delete icon against the user, Select "Yes Delete" on prompt
-		WebElement deleteUserBtn = driver
-				.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//button[1]"));
-		deleteUserBtn.click();
+		WebElement dltUsrBtn = driver.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//button[1]"));
+		dltUsrBtn.click();
 		driver.findElement(By.xpath("//button[text()=' Yes, Delete ']")).click();
 
 //		*15. Verify that "Successfully Deleted" message is displayed
-		String actualUserDeleteMsg = driver.findElement(By.xpath("//p[text()='Successfully Deleted']")).getText();
-		Assert.assertEquals(actualUserDeleteMsg, "Successfully Deleted");
+		String actUsrDltMsg = driver.findElement(By.xpath("//p[text()='Successfully Deleted']")).getText();
+		Assert.assertEquals(actUsrDltMsg, "Successfully Deleted");
 
 //		*16. Verify that the user is not displayed under Records Found table
 
 		List<WebElement> usernames = driver.findElements(By.xpath("//div[@role='table']/div[2]/div/div/div[2]/div"));
 
-		Boolean isPresent = false;
+		isPresent = false;
 		for (WebElement username : usernames) {
 			if (username.getText().equals("R_Ranga")) {
 				isPresent = true;
