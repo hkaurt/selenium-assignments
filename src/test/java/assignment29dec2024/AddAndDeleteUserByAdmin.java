@@ -12,8 +12,12 @@ public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 
 	// Verify that an admin user can be successfully added and deleted from the
 	// application
+	
+	String eUsrNm="R_Ranga";
+	String pwd="Enter@123";
+	
 	@Test
-	public void verifyAddAndDeleteUserByAdminTest() {
+	public void verifyAdDltUsrByAdmTest() {
 
 //      1. open url and 2. login to OrangeHrm portal
 		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
@@ -44,15 +48,15 @@ public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 
 //		8. Set a unique Username 
 		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div//input"))
-				.sendKeys("R_Ranga");
+				.sendKeys(eUsrNm);
 
 //		9. Set Password as Enter@123 and set confirm password
 		driver.findElement(
 				By.xpath("//label[text()='Password']/parent::div/following-sibling::div//input[@type='password']"))
-				.sendKeys("Enter@123");
+				.sendKeys(pwd);
 		driver.findElement(By.xpath(
 				"//label[text()='Confirm Password']/parent::div/following-sibling::div//input[@type='password']"))
-				.sendKeys("Enter@123");
+				.sendKeys(pwd);
 
 //		10. Click on Save
 		driver.findElement(By.xpath("//button[text()=' Save ']")).click();
@@ -64,30 +68,32 @@ public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 //		*12. Verify that the newly added user is added to the list "Records Found"
 
 		// find "Records Found" table
-		List<WebElement> rows = driver.findElements(By.xpath("//div[@role='table']//div[@class='oxd-table-card']"));
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@role='table']//div[@role='row']"));
 
-		// loop through each row starting from 1 until expected ele is found- it will
+		// loop through each row starting from 1 until expected ele row is found- it will
 		// give us i - row number to verify rest of ele
-		String eUsrNm="R_Ranga";
+		
 		int i;
-		Boolean isPresent = false;
+		Boolean isUsrPresent = false;
 		for (i = 1; i <= rows.size(); i++) {
 			String eleXpath = "//div[@role='table']/div[2]/div[" + i + "]/div/div[2]/div";
 			String actUsrNm = driver.findElement(By.xpath(eleXpath)).getText();
 
 			if (actUsrNm.equals(eUsrNm)) {
-				isPresent = true;
+				isUsrPresent = true;
 				break;
 			}
 		}
 
-		Assert.assertTrue(isPresent); // verify record is present and correct username
+		Assert.assertTrue(isUsrPresent); // verify record is present and correct username
 
+		String usrRow="//div[@role='table']/div[2]/div[" + i + "]";
+		
 //		*13. Verify that all the details are correct for the user in its row 
 
 		// verify actrole="Admin" in same row
 		String actRole = driver
-				.findElement(By.xpath("//div[text()='" + eUsrNm + "']/parent:: div/following-sibling::div//div[text()='" + "Admin" + "']"))
+				.findElement(By.xpath(usrRow + "//div[3]"))
 				.getText();
 
 		Assert.assertEquals(actRole, "Admin");
@@ -95,19 +101,19 @@ public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 		// verify actRole="Ranga Akunuri" in same row
 		String actEmpNm = driver
 				.findElement(
-						By.xpath("//div[text()='" + eUsrNm + "']/parent:: div/following-sibling::div//div[text()='" + "Ranga Akunuri" + "']"))
+						By.xpath(usrRow + "//div[4]"))
 				.getText();
 
 		Assert.assertEquals(actEmpNm, "Ranga Akunuri");
 
 		// verify actStatus="Enabled" in same row
 		String actStatus = driver
-				.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//div[text()='" + "Enabled" + "']"))
+				.findElement(By.xpath(usrRow + "//div[5]"))
 				.getText();
 		Assert.assertEquals(actStatus, "Enabled");
 
 //		14. Click on Delete icon against the user, Select "Yes Delete" on prompt
-		WebElement dltUsrBtn = driver.findElement(By.xpath("//div[@role='table']/div[2]/div[" + i + "]//button[1]"));
+		WebElement dltUsrBtn = driver.findElement(By.xpath(usrRow + "//button[1]"));
 		dltUsrBtn.click();
 		driver.findElement(By.xpath("//button[text()=' Yes, Delete ']")).click();
 
@@ -118,15 +124,15 @@ public class AddAndDeleteUserByAdmin extends HrmBaseTest {
 //		*16. Verify that the user is not displayed under Records Found table
 
 		List<WebElement> usernames = driver.findElements(By.xpath("//div[@role='table']/div[2]/div/div/div[2]/div"));
-
-		isPresent = false;
+			
+		isUsrPresent = false;
 		for (WebElement username : usernames) {
-			if (username.getText().equals("R_Ranga")) {
-				isPresent = true;
+			if (username.getText().equals(eUsrNm)) {
+				isUsrPresent = true;
 				break;
 			}
 		}
-		Assert.assertFalse(isPresent);
+		Assert.assertFalse(isUsrPresent);
 	}
 
 }
