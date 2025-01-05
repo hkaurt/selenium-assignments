@@ -9,7 +9,8 @@ import org.testng.annotations.Test;
 
 import assignment18dec2024.BaseTest;
 import assignment23dec2024.HrmBaseTest;
-public class ApplyLeaveOrangeHRM extends HrmBaseTest{
+
+public class ApplyLeaveOrangeHRM extends HrmBaseTest {
 
 	/*
 	 * Login to OrangeHR
@@ -23,18 +24,27 @@ public class ApplyLeaveOrangeHRM extends HrmBaseTest{
 	@Test
 	public void verifyLeave() {
 
+//      1. open url and 2. login to OrangeHrm portal
+		driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+		driver.findElement(By.name("username")).sendKeys("Admin");
+		driver.findElement(By.name("password")).sendKeys("admin123");
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+
 //		//verify dashboard 
 //		String actDbHd = driver.findElement(By.xpath("//h6[text()='Dashboard']")).getText();
 //		Assert.assertEquals(actDbHd,"Dashboard");
 
 		// go to UserMenu
-		driver.findElement(By.xpath("//span[@class='oxd-userdropdown-tab']")).click();
+		driver.findElement(By.xpath("//img[@alt='profile picture']/following-sibling::p")).click();
 
 		// select About
 		driver.findElement(By.linkText("About")).click();
 
 		// get company name and verify
-		String actCompNm = driver.findElement(By.xpath("//p[text()='Company Name: ']/parent::div/following-sibling::div/p[text()='OrangeHRM']")).getText();
+		String actCompNm = driver
+				.findElement(By
+						.xpath("//p[text()='Company Name: ']/parent::div/following-sibling::div/p[text()='OrangeHRM']"))
+				.getText();
 		Assert.assertEquals(actCompNm, "OrangeHRM");
 
 		// close pop up
@@ -50,8 +60,8 @@ public class ApplyLeaveOrangeHRM extends HrmBaseTest{
 		// click on apply
 		driver.findElement(By.xpath("//a[text()='Apply']")).click();
 
-		//verify 'apply leave' page 
-		String actLvFrmHd=driver.findElement(By.xpath("//h6[text()='Apply Leave']")).getText();
+		// verify 'apply leave' page
+		String actLvFrmHd = driver.findElement(By.xpath("//h6[text()='Apply Leave']")).getText();
 		Assert.assertEquals(actLvFrmHd, "Apply Leave");
 
 		// fill the form
@@ -61,10 +71,13 @@ public class ApplyLeaveOrangeHRM extends HrmBaseTest{
 		driver.findElement(By.xpath("//span[text()='CAN - FMLA']")).click();
 
 		// 2.enter 'From Date'
-		driver.findElement(By.xpath("//label[text()='From Date']/parent::div/following-sibling::div//input[@placeholder='yyyy-dd-mm']")).sendKeys("2024-28-12");
+		driver.findElement(By.xpath(
+				"//label[text()='From Date']/parent::div/following-sibling::div//input[@placeholder='yyyy-dd-mm']"))
+				.sendKeys("2024-28-12");
 
 		// 3.enter 'To Date'
-		WebElement toDateEle = driver.findElement(By.xpath("//label[text()='To Date']/parent::div/following-sibling::div//input[@placeholder='yyyy-dd-mm']"));
+		WebElement toDateEle = driver.findElement(By.xpath(
+				"//label[text()='To Date']/parent::div/following-sibling::div//input[@placeholder='yyyy-dd-mm']"));
 
 		// using Actions class to clear the auto date in the 'To Date' text field and
 		// entering date
@@ -73,7 +86,8 @@ public class ApplyLeaveOrangeHRM extends HrmBaseTest{
 				.keyDown(Keys.TAB).perform();
 
 		// 4.add comment: vacation applied by H
-		driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea")).sendKeys("vacation applied by H");
+		driver.findElement(By.xpath("//label[text()='Comments']/parent::div/following-sibling::div/textarea"))
+				.sendKeys("vacation applied by H");
 
 		// click on 'Apply' button
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
