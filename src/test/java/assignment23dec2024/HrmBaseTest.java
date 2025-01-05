@@ -1,7 +1,8 @@
-package assignment29dec2024;
+package assignment23dec2024;
 
 import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -12,16 +13,16 @@ import org.testng.annotations.BeforeMethod;
 
 //DRY principle- Do not repeat code
 
-public class BaseTest {
+public class HrmBaseTest {
 
-	WebDriver driver; // instance var - declare at class level to use in other methods
+	public WebDriver driver; // instance var - declare at class level to use in other methods
 
 	@BeforeMethod
 	public void init() {
 
 		String browser = "Chrome";
 
-		//cross browser testing
+		// cross browser testing
 		switch (browser.toLowerCase()) {
 
 		case "chrome":
